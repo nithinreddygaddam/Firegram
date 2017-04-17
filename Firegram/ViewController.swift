@@ -9,12 +9,13 @@
 import UIKit
 import Firebase
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     let plusPhotoButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "plus_photo").withRenderingMode(.alwaysOriginal), for: .normal)
-        button.target(forAction: #selector(handlePhotoButton), withSender: self)
+        button.addTarget(self, action: #selector(handlePhotoButton), for: .touchUpInside)
+
         return button
     }()
     
@@ -29,11 +30,35 @@ class ViewController: UIViewController {
     }()
     
     func handlePhotoButton () {
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.delegate = self
+        imagePickerController.allowsEditing = true
         
+        present(imagePickerController, animated:true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        
+        if let originalImage = info["UIImagePickerControllerOriginalImage"] as? UIImage {
+            plusPhotoButton.setImage(originalImage.withRenderingMode(.alwaysOriginal), for: .normal)
+        }
+        
+        else if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage {
+            plusPhotoButton.setImage(editedImage.withRenderingMode(.alwaysOriginal), for: .normal)
+            
+        }
+        
+        plusPhotoButton.layer.cornerRadius = plusPhotoButton.frame.width/2
+        plusPhotoButton.layer.masksToBounds = true
+        plusPhotoButton.layer.borderColor = UIColor.black.cgColor
+        plusPhotoButton.layer.borderWidth = 3
+        
+        dismiss(animated: true, completion: nil)
     }
     
     func handleTextInputChange() {
-        let isFormValid = emailTextField.text?.characters.count ?? 0 > 0 && (emailTextField.text?.contains("@"))! && (emailTextField.text?.contains("."))! && usernameTextField.text?.characters.count ?? 0 > 0 && passwordTextField.text?.characters.count ?? 0 > 6
+        let isFormValid = emailTextField.text?.characters.count ?? 0 > 0 && (emailTextField.text?.contains("@"))! && (emailTextField.text?.contains("."))! && usernameTextField.text?.characters.count ?? 0 > 0 && passwordTextField.text?.characters.count ?? 0 > 5
         
         if (isFormValid){
             signUpButton.isEnabled = true
@@ -94,6 +119,42 @@ class ViewController: UIViewController {
             }
             else{
                 print("Successfully created user: ", user?.uid ?? "")
+                
+                guard let image = self.plusPhotoButton.imageView?.image else {return}
+                
+                guard let uploadData = UIImageJPEGRepresentation(image, 0.3) else {return}
+                
+                let fileName = NSUUID().uuidString
+                
+                FIRStorage.storage().reference().child("profile_images").child(fileName).put(uploadData, metadata: nil, completion: {(metadata, err) in
+                    
+                    if let err = err{
+                        print("Failed to upload profile image:" , err)
+                        return
+                    }
+                    
+                    guard let profileImageUrl = metadata?.downloadURL()?.absoluteString else {return}
+                    
+                    print("Succefulle Uploaded profile image")
+                    print(profileImageUrl)
+                    
+                    guard let uid = user?.uid else { return }
+                    
+                    let dictionaryValues = ["username": username, "profileImageUrl": profileImageUrl]
+                    let values =  [uid: dictionaryValues]
+                    
+                    FIRDatabase.database().reference().child("users").updateChildValues(values, withCompletionBlock: {(err, ref) in
+                        
+                        if let err = err{
+                            print("Failed to save user info to database: ", err)
+                            return
+                        }
+                        else{
+                            print("Succefully saved user info to db")
+                        }
+                    })
+                })
+                
             }
         })
     }
