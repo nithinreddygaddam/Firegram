@@ -1,0 +1,6 @@
+framework module Pods_FiregramUITests {
+  umbrella header "Pods-FiregramUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

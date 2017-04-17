@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		10B7ED2A8FD33844BB5033DC /* Pods_FiregramUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433B19E5583FA148CAE1CCA6 /* Pods_FiregramUITests.framework */; };
 		59DD28D91EA418F20012D7A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DD28D81EA418F20012D7A0 /* AppDelegate.swift */; };
 		59DD28DB1EA418F20012D7A0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DD28DA1EA418F20012D7A0 /* ViewController.swift */; };
 		59DD28DE1EA418F20012D7A0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 59DD28DC1EA418F20012D7A0 /* Main.storyboard */; };
@@ -15,6 +16,9 @@
 		59DD28EE1EA418F20012D7A0 /* FiregramTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DD28ED1EA418F20012D7A0 /* FiregramTests.swift */; };
 		59DD28F91EA418F20012D7A0 /* FiregramUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DD28F81EA418F20012D7A0 /* FiregramUITests.swift */; };
 		59DD29081EA42D3B0012D7A0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DD29071EA42D3B0012D7A0 /* Extensions.swift */; };
+		59DD290C1EA4432B0012D7A0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59DD290B1EA4432B0012D7A0 /* GoogleService-Info.plist */; };
+		634B2FB0CBAE85929E9AD5BC /* Pods_Firegram.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1ED13BB2F41B972E2C49E861 /* Pods_Firegram.framework */; };
+		C750B34B28EEFF3B1F7F2785 /* Pods_FiregramTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A573DCAFADBCB0412B8BBB1 /* Pods_FiregramTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +39,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1ED13BB2F41B972E2C49E861 /* Pods_Firegram.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Firegram.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F38A4B5903C13A8866834EF /* Pods-Firegram.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Firegram.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Firegram/Pods-Firegram.debug.xcconfig"; sourceTree = "<group>"; };
+		433B19E5583FA148CAE1CCA6 /* Pods_FiregramUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FiregramUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		57AF7EC200F7F339166E1E45 /* Pods-FiregramUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FiregramUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FiregramUITests/Pods-FiregramUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		59DD28D51EA418F20012D7A0 /* Firegram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Firegram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		59DD28D81EA418F20012D7A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		59DD28DA1EA418F20012D7A0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -49,6 +57,12 @@
 		59DD28F81EA418F20012D7A0 /* FiregramUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiregramUITests.swift; sourceTree = "<group>"; };
 		59DD28FA1EA418F20012D7A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		59DD29071EA42D3B0012D7A0 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		59DD290B1EA4432B0012D7A0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		7A7F9AE24F9AB1B38EE6150A /* Pods-Firegram.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Firegram.release.xcconfig"; path = "Pods/Target Support Files/Pods-Firegram/Pods-Firegram.release.xcconfig"; sourceTree = "<group>"; };
+		8CCAC5975CD863DAFFB0DD91 /* Pods-FiregramUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FiregramUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FiregramUITests/Pods-FiregramUITests.release.xcconfig"; sourceTree = "<group>"; };
+		9A573DCAFADBCB0412B8BBB1 /* Pods_FiregramTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FiregramTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D3ACE764089519811C9F046C /* Pods-FiregramTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FiregramTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FiregramTests/Pods-FiregramTests.debug.xcconfig"; sourceTree = "<group>"; };
+		ED92FB03497E38D46EB8FD53 /* Pods-FiregramTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FiregramTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FiregramTests/Pods-FiregramTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				634B2FB0CBAE85929E9AD5BC /* Pods_Firegram.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C750B34B28EEFF3B1F7F2785 /* Pods_FiregramTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,6 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				10B7ED2A8FD33844BB5033DC /* Pods_FiregramUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +100,8 @@
 				59DD28EC1EA418F20012D7A0 /* FiregramTests */,
 				59DD28F71EA418F20012D7A0 /* FiregramUITests */,
 				59DD28D61EA418F20012D7A0 /* Products */,
+				C1FD29C8DDA9D1139BE6C899 /* Pods */,
+				DFAC42CF77213ACCF78EDD67 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -106,6 +125,7 @@
 				59DD28DF1EA418F20012D7A0 /* Assets.xcassets */,
 				59DD28E11EA418F20012D7A0 /* LaunchScreen.storyboard */,
 				59DD28E41EA418F20012D7A0 /* Info.plist */,
+				59DD290B1EA4432B0012D7A0 /* GoogleService-Info.plist */,
 			);
 			path = Firegram;
 			sourceTree = "<group>";
@@ -136,6 +156,29 @@
 			name = Utils;
 			sourceTree = "<group>";
 		};
+		C1FD29C8DDA9D1139BE6C899 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3F38A4B5903C13A8866834EF /* Pods-Firegram.debug.xcconfig */,
+				7A7F9AE24F9AB1B38EE6150A /* Pods-Firegram.release.xcconfig */,
+				D3ACE764089519811C9F046C /* Pods-FiregramTests.debug.xcconfig */,
+				ED92FB03497E38D46EB8FD53 /* Pods-FiregramTests.release.xcconfig */,
+				57AF7EC200F7F339166E1E45 /* Pods-FiregramUITests.debug.xcconfig */,
+				8CCAC5975CD863DAFFB0DD91 /* Pods-FiregramUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		DFAC42CF77213ACCF78EDD67 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1ED13BB2F41B972E2C49E861 /* Pods_Firegram.framework */,
+				9A573DCAFADBCB0412B8BBB1 /* Pods_FiregramTests.framework */,
+				433B19E5583FA148CAE1CCA6 /* Pods_FiregramUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -143,9 +186,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 59DD28FD1EA418F20012D7A0 /* Build configuration list for PBXNativeTarget "Firegram" */;
 			buildPhases = (
+				AD1EC1324894E2064545EE01 /* [CP] Check Pods Manifest.lock */,
 				59DD28D11EA418F20012D7A0 /* Sources */,
 				59DD28D21EA418F20012D7A0 /* Frameworks */,
 				59DD28D31EA418F20012D7A0 /* Resources */,
+				E2582A42B6299B8AFCC2F16F /* [CP] Embed Pods Frameworks */,
+				8D69334DFACBA021B7A2F06D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -160,9 +206,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 59DD29001EA418F20012D7A0 /* Build configuration list for PBXNativeTarget "FiregramTests" */;
 			buildPhases = (
+				E380076D9DE8784560DA7B2E /* [CP] Check Pods Manifest.lock */,
 				59DD28E51EA418F20012D7A0 /* Sources */,
 				59DD28E61EA418F20012D7A0 /* Frameworks */,
 				59DD28E71EA418F20012D7A0 /* Resources */,
+				993552FB81640C118B2EB933 /* [CP] Embed Pods Frameworks */,
+				0B578A00CAFBFD9A4B139B85 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -178,9 +227,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 59DD29031EA418F20012D7A0 /* Build configuration list for PBXNativeTarget "FiregramUITests" */;
 			buildPhases = (
+				DD9E2C4F821E2B6825A1D939 /* [CP] Check Pods Manifest.lock */,
 				59DD28F01EA418F20012D7A0 /* Sources */,
 				59DD28F11EA418F20012D7A0 /* Frameworks */,
 				59DD28F21EA418F20012D7A0 /* Resources */,
+				A809A3CA58E86DC58DFF77C5 /* [CP] Embed Pods Frameworks */,
+				1A592FBC914CF170B4B13CA3 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -247,6 +299,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				59DD28E31EA418F20012D7A0 /* LaunchScreen.storyboard in Resources */,
+				59DD290C1EA4432B0012D7A0 /* GoogleService-Info.plist in Resources */,
 				59DD28E01EA418F20012D7A0 /* Assets.xcassets in Resources */,
 				59DD28DE1EA418F20012D7A0 /* Main.storyboard in Resources */,
 			);
@@ -267,6 +320,144 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0B578A00CAFBFD9A4B139B85 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FiregramTests/Pods-FiregramTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1A592FBC914CF170B4B13CA3 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FiregramUITests/Pods-FiregramUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8D69334DFACBA021B7A2F06D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Firegram/Pods-Firegram-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		993552FB81640C118B2EB933 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FiregramTests/Pods-FiregramTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A809A3CA58E86DC58DFF77C5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FiregramUITests/Pods-FiregramUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AD1EC1324894E2064545EE01 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		DD9E2C4F821E2B6825A1D939 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E2582A42B6299B8AFCC2F16F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Firegram/Pods-Firegram-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E380076D9DE8784560DA7B2E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		59DD28D11EA418F20012D7A0 /* Sources */ = {
@@ -425,6 +616,7 @@
 		};
 		59DD28FE1EA418F20012D7A0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3F38A4B5903C13A8866834EF /* Pods-Firegram.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 3FYM93LDK9;
@@ -438,6 +630,7 @@
 		};
 		59DD28FF1EA418F20012D7A0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7A7F9AE24F9AB1B38EE6150A /* Pods-Firegram.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 3FYM93LDK9;
@@ -451,6 +644,7 @@
 		};
 		59DD29011EA418F20012D7A0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D3ACE764089519811C9F046C /* Pods-FiregramTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -466,6 +660,7 @@
 		};
 		59DD29021EA418F20012D7A0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ED92FB03497E38D46EB8FD53 /* Pods-FiregramTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -481,6 +676,7 @@
 		};
 		59DD29041EA418F20012D7A0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 57AF7EC200F7F339166E1E45 /* Pods-FiregramUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = 3FYM93LDK9;
@@ -495,6 +691,7 @@
 		};
 		59DD29051EA418F20012D7A0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8CCAC5975CD863DAFFB0DD91 /* Pods-FiregramUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = 3FYM93LDK9;
@@ -526,6 +723,7 @@
 				59DD28FF1EA418F20012D7A0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		59DD29001EA418F20012D7A0 /* Build configuration list for PBXNativeTarget "FiregramTests" */ = {
 			isa = XCConfigurationList;
@@ -534,6 +732,7 @@
 				59DD29021EA418F20012D7A0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		59DD29031EA418F20012D7A0 /* Build configuration list for PBXNativeTarget "FiregramUITests" */ = {
 			isa = XCConfigurationList;
@@ -542,6 +741,7 @@
 				59DD29051EA418F20012D7A0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
