@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class SignUpController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     let plusPhotoButton: UIButton = {
         let button = UIButton(type: .system)
@@ -151,6 +151,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                         }
                         else{
                             print("Succefully saved user info to db")
+                            
+                            guard let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController else {return}
+                            
+                            mainTabBarController.setupViewController()
+                            
+                            self.dismiss(animated: true, completion: nil)
                         }
                     })
                 })
@@ -159,9 +165,28 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         })
     }
     
+    let alreadyHaveAccountButton: UIButton = {
+        let button = UIButton(type: .system)
+        let attributedTitle = NSMutableAttributedString(string: "Have an account already? ", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14), NSForegroundColorAttributeName: UIColor.lightGray])
+        
+        attributedTitle.append(NSAttributedString(string: "Sign In", attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 14), NSForegroundColorAttributeName:UIColor.rgb(red: 17,green: 154,blue: 237)
+            ]))
+        button.setAttributedTitle(attributedTitle, for: .normal)
+        
+        button.addTarget(self, action: #selector(handleShowSignIn), for: .touchUpInside)
+        return button
+    }()
+    
+    func handleShowSignIn(){
+        
+        _ = navigationController?.popViewController(animated: true)
+    }
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .white
         view.addSubview(plusPhotoButton)
         
         plusPhotoButton.anchor(top: view.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 40, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 140, height: 140)
@@ -169,6 +194,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         plusPhotoButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         setupInputFields()
+        
+        view.addSubview(alreadyHaveAccountButton)
+        
+        alreadyHaveAccountButton.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 50)
         
     }
 
