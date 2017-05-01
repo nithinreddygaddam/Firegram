@@ -13,6 +13,8 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
     
     let cellId = "cellId"
     
+    var userId: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -26,15 +28,14 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         
         setupLogOutButton()
         
-        fetchOrderedPosts()
+//        fetchOrderedPosts()
         
     }
     
     var posts = [Post]()
     
     fileprivate func fetchOrderedPosts(){
-        
-        guard let uid = FIRAuth.auth()?.currentUser?.uid else {return}
+        guard let uid = self.user?.uid else {return}
         let ref = FIRDatabase.database().reference().child("posts").child(uid)
         
         ref.queryOrdered(byChild: "creationDate").observe(.childAdded, with: { (snapshot) in
@@ -124,14 +125,14 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
     var user: User?
     
     fileprivate func fetchUser() {
-        guard let uid = FIRAuth.auth()?.currentUser?.uid else {return}
+        let uid = userId ?? FIRAuth.auth()?.currentUser?.uid ?? ""
         
         FIRDatabase.fetchUserWithUID(uid: uid) { (user) in
             self.user = user
             
-            self.navigationItem.title = self.user?.username
-            
             self.collectionView?.reloadData()
+            
+            self.fetchOrderedPosts()
         }
     }
 }

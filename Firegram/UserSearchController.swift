@@ -46,6 +46,10 @@ class UserSearchController: UICollectionViewController, UICollectionViewDelegate
             
             dictionaries.forEach({ (key, value) in
                 
+                if key == FIRAuth.auth()?.currentUser?.uid{
+                    return
+                }
+                
                 guard let userDictionary = value as? [String: Any] else {return}
                 
                 let user = User(uid: key, dictionary: userDictionary)
@@ -78,7 +82,23 @@ class UserSearchController: UICollectionViewController, UICollectionViewDelegate
         
         collectionView?.alwaysBounceVertical = true
         
+        collectionView?.keyboardDismissMode = .onDrag
         fetchUsers()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        searchBar.isHidden = false
+    }
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        searchBar.isHidden = true
+        searchBar.resignFirstResponder()
+        let user = filteredUsers[indexPath.item]
+        
+        let userProfileController = UserProfileController(collectionViewLayout: UICollectionViewFlowLayout())
+        userProfileController.userId = user.uid
+        navigationController?.pushViewController(userProfileController, animated: true)
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
