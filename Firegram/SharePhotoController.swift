@@ -76,6 +76,8 @@ class SharePhotoController: UIViewController {
             
             print("Succefully saved post to DB")
             self.dismiss(animated: true, completion: nil)
+            
+            NotificationCenter.default.post(name: HomeController.updateFeedNotification, object: nil)
         }
     }
     

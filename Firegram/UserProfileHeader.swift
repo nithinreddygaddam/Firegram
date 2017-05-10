@@ -9,7 +9,14 @@
 import UIKit
 import Firebase
 
+protocol UserProfileHeaderDelegate {
+    func didTapMessage()
+//    func updatevalues(posts: Int, followers: Int, following: Int)
+}
+
 class UserProfileHeader: UICollectionViewCell {
+    
+    var delegate: UserProfileHeaderDelegate?
     
     var user: User? {
         didSet {
@@ -28,17 +35,14 @@ class UserProfileHeader: UICollectionViewCell {
         guard let userId = user?.uid else {return}
     
         if currentLoggedInUserId == userId{
-    
+            sendMessageButton.isHidden = true
         }else{
-            
+            sendMessageButton.isHidden = false
             FIRDatabase.database().reference().child("following").child(currentLoggedInUserId).child(userId).observeSingleEvent(of: .value, with: { (snapshot) in
                 if let isFollowing = snapshot.value as? Int, isFollowing == 1 {
-                    self.editProfileFollowButton.setTitle("Unfollow", for: .normal)
+                    self.setupUnfollowStyle()
                 } else {
-                    self.editProfileFollowButton.setTitle("Follow", for: .normal)
-                    self.editProfileFollowButton.backgroundColor = UIColor.rgb(red: 27, green: 154, blue: 237)
-                    self.editProfileFollowButton.setTitleColor(.white, for: .normal)
-                    self.editProfileFollowButton.layer.borderColor = UIColor(white: 0, alpha: 0.2).cgColor
+                    self.setupFollowStyle()
                 }
                 
             }, withCancel: { (err) in
@@ -67,10 +71,7 @@ class UserProfileHeader: UICollectionViewCell {
                     print("Failed to follw user:", err)
                     return
                 }
-                self.editProfileFollowButton.setTitle("Unfollow", for: .normal)
-                self.editProfileFollowButton.backgroundColor = .white
-                self.editProfileFollowButton.setTitleColor(.black, for: .normal)
-                self.editProfileFollowButton.layer.borderColor = UIColor.gray.cgColor
+                self.setupUnfollowStyle()
                 print("Succesfully followed user: ", self.user?.username ?? "")
             }
         } else if (editProfileFollowButton.titleLabel?.text == "Unfollow"){
@@ -81,15 +82,25 @@ class UserProfileHeader: UICollectionViewCell {
                 }
                 
                 print("Succesfully unfollowed user: ",self.user?.username ?? "")
-                self.editProfileFollowButton.setTitle("Follow", for: .normal)
-                self.editProfileFollowButton.backgroundColor = UIColor.rgb(red: 27, green: 154, blue: 237)
-                self.editProfileFollowButton.setTitleColor(.white, for: .normal)
-                self.editProfileFollowButton.layer.borderColor = UIColor(white: 0, alpha: 0.2).cgColor
+                self.setupFollowStyle()
             })
         }
         
     }
+    
+    fileprivate func setupFollowStyle() {
+        self.editProfileFollowButton.setTitle("Follow", for: .normal)
+        self.editProfileFollowButton.backgroundColor = UIColor.rgb(red: 27, green: 154, blue: 237)
+        self.editProfileFollowButton.setTitleColor(.white, for: .normal)
+        self.editProfileFollowButton.layer.borderColor = UIColor(white: 0, alpha: 0.2).cgColor
+    }
 
+    fileprivate func setupUnfollowStyle() {
+        self.editProfileFollowButton.setTitle("Unfollow", for: .normal)
+        self.editProfileFollowButton.backgroundColor = .white
+        self.editProfileFollowButton.setTitleColor(.black, for: .normal)
+        self.editProfileFollowButton.layer.borderColor = UIColor.gray.cgColor
+    }
     
     let profileImageView: CustomImageView = {
         let iv = CustomImageView()
@@ -125,25 +136,27 @@ class UserProfileHeader: UICollectionViewCell {
     
     let postLabel: UILabel = {
         let label = UILabel()
-        
-        let attributedText = NSMutableAttributedString(string: "1\n", attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 14)])
-        attributedText.append(NSAttributedString(string: "posts", attributes: [NSForegroundColorAttributeName: UIColor.lightGray, NSFontAttributeName: UIFont.systemFont(ofSize: 14)]))
-        
-        label.attributedText = attributedText
-        
         label.numberOfLines = 0
         label.textAlignment = .center
         return label
     }()
     
+    func updateValues(posts: Int, follower: Int, following: Int){
+        
+        self.postLabel.attributedText = updateAttributeText(value: posts, name: "posts")
+        self.followersLabel.attributedText = updateAttributeText(value: follower, name: "followers")
+        self.followingLabel.attributedText = updateAttributeText(value: following, name: "following")
+    }
+    
+    func updateAttributeText(value: Int, name: String) -> NSAttributedString{
+        let attributedText = NSMutableAttributedString(string: "\(value)\n", attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 14)])
+        attributedText.append(NSAttributedString(string: name, attributes: [NSForegroundColorAttributeName: UIColor.lightGray, NSFontAttributeName: UIFont.systemFont(ofSize: 14)]))
+        
+        return attributedText
+    }
+    
     let followersLabel: UILabel = {
         let label = UILabel()
-        
-        let attributedText = NSMutableAttributedString(string: "10\n", attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 14)])
-        attributedText.append(NSAttributedString(string: "followers", attributes: [NSForegroundColorAttributeName: UIColor.lightGray, NSFontAttributeName: UIFont.systemFont(ofSize: 14)]))
-        
-        label.attributedText = attributedText
-        
         label.numberOfLines = 0
         label.textAlignment = .center
         return label
@@ -151,12 +164,6 @@ class UserProfileHeader: UICollectionViewCell {
     
     let followingLabel: UILabel = {
         let label = UILabel()
-        
-        let attributedText = NSMutableAttributedString(string: "15\n", attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 14)])
-        attributedText.append(NSAttributedString(string: "following", attributes: [NSForegroundColorAttributeName: UIColor.lightGray, NSFontAttributeName: UIFont.systemFont(ofSize: 14)]))
-        
-        label.attributedText = attributedText
-        
         label.numberOfLines = 0
         label.textAlignment = .center
         return label
@@ -175,24 +182,37 @@ class UserProfileHeader: UICollectionViewCell {
         return button
     }()
     
+    lazy var sendMessageButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "send2").withRenderingMode(.alwaysOriginal), for: .normal)
+        button.addTarget(self, action: #selector(handleSendMessage), for: .touchUpInside)
+        return button
+    }()
+    
+    func handleSendMessage(){
+        delegate?.didTapMessage()
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         addSubview(profileImageView)
         profileImageView.anchor(top: topAnchor, left: self.leftAnchor, bottom: nil, right: nil, paddingTop: 12, paddingLeft: 12, paddingBottom: 0, paddingRight: 0, width: 80, height: 80)
-        profileImageView.layer.cornerRadius = 80/2
+        profileImageView.layer.cornerRadius = 80/4
         profileImageView.clipsToBounds = true
         
-        setupBottomToolbar()
+//        setupBottomToolbar()
         
         addSubview(usernameLabel)
-        usernameLabel.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, bottom: gridButton.topAnchor, right: rightAnchor, paddingTop: 4, paddingLeft: 12, paddingBottom: 0, paddingRight: 12, width: 0, height: 0)
+        usernameLabel.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 4, paddingLeft: 12, paddingBottom: 0, paddingRight: 12, width: 0, height: 0)
         
         setupUserStatsView()
         
         addSubview(editProfileFollowButton)
         editProfileFollowButton.anchor(top: postLabel.bottomAnchor, left: postLabel.leftAnchor, bottom: nil, right: followingLabel.rightAnchor, paddingTop: 4, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 34)
+        
+        addSubview(sendMessageButton)
+        sendMessageButton.anchor(top: editProfileFollowButton.bottomAnchor, left: usernameLabel.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 20, width: 40, height: 40)
     }
     
     fileprivate func setupUserStatsView() {
@@ -203,29 +223,29 @@ class UserProfileHeader: UICollectionViewCell {
         stackView.anchor(top: topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: rightAnchor, paddingTop: 12, paddingLeft: 12, paddingBottom: 0, paddingRight: 12, width: 0, height: 50)
     }
     
-    fileprivate func setupBottomToolbar() {
-        
-        let topDividerView = UIView()
-        topDividerView.backgroundColor = UIColor.lightGray
-        
-        let bottomDividerView = UIView()
-        bottomDividerView.backgroundColor = UIColor.lightGray
-        
-        let stackView = UIStackView(arrangedSubviews: [gridButton, listButton, bookmarkButton])
-        
-        stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        
-        addSubview(stackView)
-        addSubview(topDividerView)
-        addSubview(bottomDividerView)
-        
-        stackView.anchor(top: nil, left: leftAnchor, bottom: self.bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 50)
-        
-        topDividerView.anchor(top: stackView.topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.5)
-        
-        bottomDividerView.anchor(top: stackView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.5)
-    }
+//    fileprivate func setupBottomToolbar() {
+//        
+//        let topDividerView = UIView()
+//        topDividerView.backgroundColor = UIColor.lightGray
+//        
+//        let bottomDividerView = UIView()
+//        bottomDividerView.backgroundColor = UIColor.lightGray
+//        
+//        let stackView = UIStackView(arrangedSubviews: [gridButton, listButton, bookmarkButton])
+//        
+//        stackView.axis = .horizontal
+//        stackView.distribution = .fillEqually
+//        
+//        addSubview(stackView)
+//        addSubview(topDividerView)
+//        addSubview(bottomDividerView)
+//        
+//        stackView.anchor(top: nil, left: leftAnchor, bottom: self.bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 50)
+//        
+//        topDividerView.anchor(top: stackView.topAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.5)
+//        
+//        bottomDividerView.anchor(top: stackView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.5)
+//    }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder: ) has not been implemented")

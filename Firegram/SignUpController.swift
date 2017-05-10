@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class SignUpController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class SignUpController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
 
     let plusPhotoButton: UIButton = {
         let button = UIButton(type: .system)
@@ -26,6 +26,7 @@ class SignUpController: UIViewController, UIImagePickerControllerDelegate, UINav
         tf.borderStyle = .roundedRect
         tf.font = UIFont.systemFont(ofSize: 14)
         tf.addTarget(self, action: #selector(handleTextInputChange), for: .editingChanged)
+        tf.keyboardType = .emailAddress
         return tf
     }()
     
@@ -62,11 +63,11 @@ class SignUpController: UIViewController, UIImagePickerControllerDelegate, UINav
         
         if (isFormValid){
             signUpButton.isEnabled = true
-            signUpButton.backgroundColor = UIColor.rgb(red: 17,green: 154,blue: 237)
+            signUpButton.backgroundColor = UIColor.rgb(red: 255, green: 102, blue: 102)
         }
         else{
             signUpButton.isEnabled = false
-            signUpButton.backgroundColor = UIColor.rgb(red: 149,green: 204,blue: 244)
+            signUpButton.backgroundColor = UIColor.rgb(red: 255, green: 179, blue: 179)
         }
         
     }
@@ -95,8 +96,7 @@ class SignUpController: UIViewController, UIImagePickerControllerDelegate, UINav
     let signUpButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Sign Up", for: .normal)
-        button.backgroundColor = .blue
-        button.backgroundColor = UIColor.rgb(red: 149,green: 204,blue: 244)
+        button.backgroundColor = UIColor.rgb(red: 255,green: 179,blue: 179)
         button.layer.cornerRadius = 5
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.setTitleColor(.white, for: .normal)
@@ -169,7 +169,7 @@ class SignUpController: UIViewController, UIImagePickerControllerDelegate, UINav
         let button = UIButton(type: .system)
         let attributedTitle = NSMutableAttributedString(string: "Have an account already? ", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14), NSForegroundColorAttributeName: UIColor.lightGray])
         
-        attributedTitle.append(NSAttributedString(string: "Sign In", attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 14), NSForegroundColorAttributeName:UIColor.rgb(red: 17,green: 154,blue: 237)
+        attributedTitle.append(NSAttributedString(string: "Sign In", attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 14), NSForegroundColorAttributeName:UIColor.rgb(red: 255, green: 102, blue: 102)
             ]))
         button.setAttributedTitle(attributedTitle, for: .normal)
         
@@ -199,6 +199,9 @@ class SignUpController: UIViewController, UIImagePickerControllerDelegate, UINav
         
         alreadyHaveAccountButton.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 50)
         
+        self.emailTextField.delegate = self
+        self.passwordTextField.delegate = self
+        self.usernameTextField.delegate = self
     }
 
     fileprivate func setupInputFields(){
@@ -217,6 +220,13 @@ class SignUpController: UIViewController, UIImagePickerControllerDelegate, UINav
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        usernameTextField.resignFirstResponder()
+        emailTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
+        return true;
     }
 
 

@@ -41,7 +41,7 @@ class UserSearchCell: UICollectionViewCell {
         addSubview(usernameLabel)
         
         profileImageView.anchor(top: nil, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 50, height: 50)
-        profileImageView.layer.cornerRadius = 50 / 2
+        profileImageView.layer.cornerRadius = 15
         profileImageView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         
         usernameLabel.anchor(top: topAnchor, left: profileImageView.rightAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)

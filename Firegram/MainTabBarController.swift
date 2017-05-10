@@ -29,6 +29,10 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.tabBar.barTintColor = UIColor.rgb(red: 255, green: 102, blue: 102)
+        
+        
+        
         self.delegate = self
         
         if FIRAuth.auth()?.currentUser == nil {
@@ -55,7 +59,8 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate{
         
         let plusNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "plus_unselected"), selectedImage: #imageLiteral(resourceName: "plus_unselected"))
         
-        let likeNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "like_unselected"), selectedImage: #imageLiteral(resourceName: "like_selected"))
+        let likeNavController = templateNavController(unselectedImage: #imageLiteral(resourceName: "send2"), selectedImage: #imageLiteral(resourceName: "send_selected"), rootViewController: MessagesController())
+        
         
         //user profile
         let layout = UICollectionViewFlowLayout()
@@ -64,7 +69,6 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate{
         
         userProfileNavController.tabBarItem.image = #imageLiteral(resourceName: "profile_unselected")
         userProfileNavController.tabBarItem.selectedImage = #imageLiteral(resourceName: "profile_selected")
-        
         
         tabBar.tintColor = .black
         

@@ -16,6 +16,13 @@ class PhotoSelectorController: UICollectionViewController, UICollectionViewDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let navBar = self.navigationController?.navigationBar
+        navBar?.barTintColor = UIColor.rgb(red: 255, green: 153, blue: 153)
+        navBar?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        navBar?.tintColor = .white
+        navBar?.barStyle = UIBarStyle.black;
+        
         collectionView?.backgroundColor = .white
         
         setupNavigationButtons()
@@ -42,7 +49,7 @@ class PhotoSelectorController: UICollectionViewController, UICollectionViewDeleg
     
     fileprivate func assetFetchOption() -> PHFetchOptions {
         let fetchOptions = PHFetchOptions()
-        fetchOptions.fetchLimit = 30
+        fetchOptions.fetchLimit = 32
         let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
         fetchOptions.sortDescriptors = [sortDescriptor]
         return fetchOptions

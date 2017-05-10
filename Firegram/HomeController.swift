@@ -9,7 +9,12 @@
 import UIKit
 import Firebase
 
-class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLayout{
+
+var currentUser: User?
+
+class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLayout, HomePostCellDelegate{
+    
+    static let updateFeedNotification = NSNotification.Name(rawValue: "UpdateFeed")
     
     let cellId = "cellId"
     var posts = [Post]()
@@ -17,17 +22,97 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.tabBarController?.tabBar.unselectedItemTintColor = UIColor.white
+
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleUpdateFeed), name: HomeController.updateFeedNotification, object: nil)
+        
         collectionView?.backgroundColor = .white
         
         collectionView?.register(HomePostCell.self, forCellWithReuseIdentifier: cellId)
         
-        setupNavigationItem()
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        collectionView?.refreshControl = refreshControl
         
+//        setupNavigationItem()
+        
+        fetchAllPosts()
+        
+        //check if user is not nil
+        guard currentUser != nil else{
+            fetchUser()
+            return
+        }
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(true)
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+    func handleUpdateFeed(){
+        handleRefresh()
+    }
+    
+    func handleRefresh() {
+        posts.removeAll()
+        fetchAllPosts()
+    }
+    
+    fileprivate func fetchAllPosts() {
         fetchPosts()
+        fetchFollowingUserIds()
+    }
+    
+    //iOS 9
+    // let refreshControl = UIRefreshControl()
+
+    fileprivate func fetchFollowingUserIds() {
+        guard let uid = FIRAuth.auth()?.currentUser?.uid else {return}
+        FIRDatabase.database().reference().child("following").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let userIdsDictionary = snapshot.value as? [String: Any] else {return}
+            
+            
+            userIdsDictionary.forEach({ (key, value) in
+                FIRDatabase.fetchUserWithUID(uid: key
+                    , completion: { (user) in
+                        self.fetchPostsWithUser(user: user)
+                })
+
+            })
+        }) { (err) in
+            print("Failed to fetch following user ids ", err)
+        }
     }
     
     func setupNavigationItem(){
         navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "logo2"))
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "send2").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleShowMessages))
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "camera3").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleCamera))
+    }
+    
+    func handleCamera() {
+        print("Showing camera")
+        
+        let cameraController = CameraController()
+        present(cameraController, animated: true, completion: nil)
+    }
+
+    
+    func handleShowMessages() {
+        let messagesController = MessagesController()
+//        commentsController.post = post
+        navigationController?.pushViewController(messagesController, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -47,6 +132,16 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! HomePostCell
         
         cell.post = posts[indexPath.item]
+//        let index = indexPath.item % 2
+//        if(index == 0){
+//            cell.backgroundColor = UIColor.rgb(red: 255, green: 204, blue: 204)
+//        }
+//        else{
+            cell.backgroundColor = UIColor.rgb(red: 255, green: 204, blue: 204)
+//        }
+        
+        
+        cell.delegate = self
         return cell
     }
     
@@ -66,14 +161,21 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             
+            self.collectionView?.refreshControl?.endRefreshing()
+            
             guard let dictionaries = snapshot.value as? [String: Any] else {return}
             
             dictionaries.forEach({ (key, value) in
                 
                 guard let dictionay = value as? [String : Any] else {return}
                 
-                let post = Post(user: user, dictionary: dictionay)
+                var post = Post(user: user, dictionary: dictionay)
+                post.id = key
                 self.posts.append(post)
+            })
+            
+            self.posts.sort(by: { (p1, p2) -> Bool in
+                return p1.creationDate.compare(p2.creationDate) == .orderedDescending
             })
             
             self.collectionView?.reloadData()
@@ -82,4 +184,20 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
             print("Failed to fetch posts:", err)
         }
     }
+    
+    func didTapComment(post: Post) {
+        let commentsController = CommentsController(collectionViewLayout: UICollectionViewFlowLayout())
+        commentsController.post = post
+        navigationController?.pushViewController(commentsController, animated: true)
+    }
+    
+    fileprivate func fetchUser() {
+        let uid = FIRAuth.auth()?.currentUser?.uid ?? ""
+        
+        FIRDatabase.fetchUserWithUID(uid: uid) { (user) in
+            currentUser = user
+            
+        }
+    }
+
 }

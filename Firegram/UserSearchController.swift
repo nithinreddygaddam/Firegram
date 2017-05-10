@@ -18,8 +18,8 @@ class UserSearchController: UICollectionViewController, UICollectionViewDelegate
     lazy var searchBar: UISearchBar = {
         let sb = UISearchBar()
         sb.placeholder = "Enter username"
-        sb.barTintColor = .gray
-        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = UIColor.rgb(red: 230, green: 230, blue: 230)
+        sb.barTintColor = .white
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = .white
         sb.delegate = self
         sb.autocapitalizationType = .none
         return sb
@@ -74,7 +74,11 @@ class UserSearchController: UICollectionViewController, UICollectionViewDelegate
         
         navigationController?.navigationBar.addSubview(searchBar)
         
-        let navBar = navigationController?.navigationBar
+        let navBar = self.navigationController?.navigationBar
+        navBar?.barTintColor = UIColor.rgb(red: 255, green: 153, blue: 153)
+        navBar?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        navBar?.tintColor = .white
+        navBar?.barStyle = UIBarStyle.black;
         
         searchBar.anchor(top: navBar?.topAnchor, left: navBar?.leftAnchor, bottom: navBar?.bottomAnchor, right: navBar?.rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: 0, height: 0)
         
