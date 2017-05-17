@@ -36,8 +36,10 @@ class UserProfileHeader: UICollectionViewCell {
     
         if currentLoggedInUserId == userId{
             sendMessageButton.isHidden = true
+            self.editProfileFollowButton.isHidden = true
         }else{
             sendMessageButton.isHidden = false
+            self.editProfileFollowButton.isHidden = false
             FIRDatabase.database().reference().child("following").child(currentLoggedInUserId).child(userId).observeSingleEvent(of: .value, with: { (snapshot) in
                 if let isFollowing = snapshot.value as? Int, isFollowing == 1 {
                     self.setupUnfollowStyle()

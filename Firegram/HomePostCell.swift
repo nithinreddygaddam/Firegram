@@ -10,6 +10,7 @@ import UIKit
 
 protocol HomePostCellDelegate {
     func didTapComment(post: Post)
+    func didLike(for cell: HomePostCell)
 }
 
 class HomePostCell: UICollectionViewCell {
@@ -20,6 +21,8 @@ class HomePostCell: UICollectionViewCell {
         didSet {
             
             guard let postImageUrl = post?.imageUrl else {return}
+            
+            likeButton.setImage(post?.hasLiked == true ? #imageLiteral(resourceName: "like_selected").withRenderingMode(.alwaysOriginal) : #imageLiteral(resourceName: "like_unselected").withRenderingMode(.alwaysOriginal), for: .normal)
             
             photoImageView.loadImage(urlString: postImageUrl)
             
@@ -73,19 +76,25 @@ class HomePostCell: UICollectionViewCell {
         return label
     }()
     
-    let optionsButton: UIButton = {
-       let button = UIButton(type: .system)
-        //option 8 for •
-        button.setTitle("•••", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+//    let optionsButton: UIButton = {
+//       let button = UIButton(type: .system)
+//        //option 8 for •
+//        button.setTitle("•••", for: .normal)
+//        button.setTitleColor(.black, for: .normal)
+//        return button
+//    }()
+    
+    lazy var likeButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "like_unselected").withRenderingMode(.alwaysOriginal), for: .normal)
+        button.addTarget(self, action: #selector(handleLike), for: .touchUpInside)
         return button
     }()
     
-    let likeButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(#imageLiteral(resourceName: "like_unselected").withRenderingMode(.alwaysOriginal), for: .normal)
-        return button
-    }()
+    func handleLike() {
+        print("Handling like from within cell...")
+        delegate?.didLike(for: self)
+    }
     
     lazy var commentButton: UIButton = {
         let button = UIButton(type: .system)
@@ -122,16 +131,18 @@ class HomePostCell: UICollectionViewCell {
         
         addSubview(userProfileImageView)
         addSubview(usernameLabel)
-        addSubview(optionsButton)
+//        addSubview(optionsButton)
         addSubview(photoImageView)
         
         
         userProfileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 40, height: 40)
         userProfileImageView.layer.cornerRadius = 10 / 2
         
-        usernameLabel.anchor(top: topAnchor, left: userProfileImageView.rightAnchor, bottom: photoImageView.topAnchor, right: optionsButton.leftAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+//        usernameLabel.anchor(top: topAnchor, left: userProfileImageView.rightAnchor, bottom: photoImageView.topAnchor, right: optionsButton.leftAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
-        optionsButton.anchor(top: topAnchor, left: nil, bottom: photoImageView.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 44, height: 0)
+        usernameLabel.anchor(top: topAnchor, left: userProfileImageView.rightAnchor, bottom: photoImageView.topAnchor, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        
+//        optionsButton.anchor(top: topAnchor, left: nil, bottom: photoImageView.topAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 44, height: 0)
     
         photoImageView.anchor(top: userProfileImageView.bottomAnchor, left: leftAnchor, bottom: nil, right: rightAnchor, paddingTop: 8, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         

@@ -31,7 +31,33 @@ class PhotoSelectorController: UICollectionViewController, UICollectionViewDeleg
         
         collectionView?.register(PhotoSelectorHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
         
-        fetchPhotos()
+        checkPhotoLibraryPermission()
+        
+        
+    }
+    
+    func checkPhotoLibraryPermission() {
+        let status = PHPhotoLibrary.authorizationStatus()
+        switch status {
+        case .authorized:
+        //handle authorized status
+            fetchPhotos()
+        case .denied, .restricted : break
+        //handle denied status
+        case .notDetermined:
+            // ask for permissions
+            PHPhotoLibrary.requestAuthorization() { status in
+                switch status {
+                case .authorized:
+                // as above
+                    self.fetchPhotos()
+                case .denied, .restricted: break
+                // as above
+                case .notDetermined: break
+                    // won't happen but still
+                }
+            }
+        }
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

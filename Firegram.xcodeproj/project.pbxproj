@@ -828,7 +828,7 @@
 				CODE_SIGN_ENTITLEMENTS = Firegram/Firegram.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Nithin Reddy Gaddam (Z593HG8J92)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 3FYM93LDK9;
 				INFOPLIST_FILE = Firegram/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -847,7 +847,7 @@
 				CODE_SIGN_ENTITLEMENTS = Firegram/Firegram.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Nithin Reddy Gaddam (Z593HG8J92)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = 3FYM93LDK9;
 				INFOPLIST_FILE = Firegram/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

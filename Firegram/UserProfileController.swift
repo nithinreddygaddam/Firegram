@@ -30,9 +30,6 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         
         collectionView?.backgroundColor = .white
         
-        fetchUser()
-        
-        getNumberOfFollowing()
         
         collectionView?.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
 
@@ -54,6 +51,11 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         
         let cameraController = CameraController()
         present(cameraController, animated: true, completion: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        fetchUser()
+        getNumberOfFollowing()
     }
 
     
@@ -91,6 +93,7 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
     fileprivate func fetchOrderedPosts(){
         guard let uid = self.user?.uid else {return}
         let ref = FIRDatabase.database().reference().child("posts").child(uid)
+        self.posts.removeAll()
         
         ref.queryOrdered(byChild: "creationDate").observe(.childAdded, with: { (snapshot) in
             
