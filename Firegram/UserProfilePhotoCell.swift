@@ -40,7 +40,7 @@ class UserProfilePhotoCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func handleZoomTap(tapGesture: UITapGestureRecognizer) {
+    @objc func handleZoomTap(tapGesture: UITapGestureRecognizer) {
         
         if let imageView = tapGesture.view as? UIImageView {
             // PRO tip: don't perform a lot of custom logic inside of a view class

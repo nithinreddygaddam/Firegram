@@ -55,7 +55,7 @@ class UserProfileHeader: UICollectionViewCell {
     
     }
     
-    func handleEditProfileOrFollow() {
+    @objc func handleEditProfileOrFollow() {
         
         guard let currentLoggedInUserId = FIRAuth.auth()?.currentUser?.uid else {return}
         guard let userId = user?.uid else {return}
@@ -151,8 +151,8 @@ class UserProfileHeader: UICollectionViewCell {
     }
     
     func updateAttributeText(value: Int, name: String) -> NSAttributedString{
-        let attributedText = NSMutableAttributedString(string: "\(value)\n", attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 14)])
-        attributedText.append(NSAttributedString(string: name, attributes: [NSForegroundColorAttributeName: UIColor.lightGray, NSFontAttributeName: UIFont.systemFont(ofSize: 14)]))
+        let attributedText = NSMutableAttributedString(string: "\(value)\n", attributes: convertToOptionalNSAttributedStringKeyDictionary([convertFromNSAttributedStringKey(NSAttributedString.Key.font): UIFont.boldSystemFont(ofSize: 14)]))
+        attributedText.append(NSAttributedString(string: name, attributes: convertToOptionalNSAttributedStringKeyDictionary([convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor): UIColor.lightGray, convertFromNSAttributedStringKey(NSAttributedString.Key.font): UIFont.systemFont(ofSize: 14)])))
         
         return attributedText
     }
@@ -191,7 +191,7 @@ class UserProfileHeader: UICollectionViewCell {
         return button
     }()
     
-    func handleSendMessage(){
+    @objc func handleSendMessage(){
         delegate?.didTapMessage()
     }
     
@@ -252,4 +252,15 @@ class UserProfileHeader: UICollectionViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder: ) has not been implemented")
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.Key(rawValue: key), value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSAttributedStringKey(_ input: NSAttributedString.Key) -> String {
+	return input.rawValue
 }

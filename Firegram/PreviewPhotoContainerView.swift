@@ -30,7 +30,7 @@ class PreviewPhotoContainerView: UIView {
         return button
     }()
     
-    func handleSave() {
+    @objc func handleSave() {
         print("Handling save...")
         
         guard let previewImage = previewImageView.image else { return }
@@ -88,7 +88,7 @@ class PreviewPhotoContainerView: UIView {
         }
     }
     
-    func handleCancel() {
+    @objc func handleCancel() {
         self.removeFromSuperview()
     }
     

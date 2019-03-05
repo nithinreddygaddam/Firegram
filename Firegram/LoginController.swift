@@ -30,17 +30,17 @@ class LoginController: UIViewController, UITextFieldDelegate{
     
     let dontHaveAccountButton: UIButton = {
         let button = UIButton(type: .system)
-        let attributedTitle = NSMutableAttributedString(string: "Don't have an account? ", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14), NSForegroundColorAttributeName: UIColor.lightGray])
+        let attributedTitle = NSMutableAttributedString(string: "Don't have an account? ", attributes: convertToOptionalNSAttributedStringKeyDictionary([convertFromNSAttributedStringKey(NSAttributedString.Key.font): UIFont.systemFont(ofSize: 14), convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor): UIColor.lightGray]))
         
-        attributedTitle.append(NSAttributedString(string: "Sign Up", attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 14), NSForegroundColorAttributeName:UIColor.rgb(red: 255, green: 102, blue: 102)
-            ]))
+        attributedTitle.append(NSAttributedString(string: "Sign Up", attributes: convertToOptionalNSAttributedStringKeyDictionary([convertFromNSAttributedStringKey(NSAttributedString.Key.font): UIFont.boldSystemFont(ofSize: 14), convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor):UIColor.rgb(red: 255, green: 102, blue: 102)
+            ])))
         button.setAttributedTitle(attributedTitle, for: .normal)
 
         button.addTarget(self, action: #selector(handleShowSignUp), for: .touchUpInside)
         return button
     }()
     
-    func handleShowSignUp(){
+    @objc func handleShowSignUp(){
         let signUpController = SignUpController()
         
         navigationController?.pushViewController(signUpController, animated: true)
@@ -73,8 +73,8 @@ class LoginController: UIViewController, UITextFieldDelegate{
         return tf
     }()
 
-    func handleTextInputChange() {
-        let isFormValid = emailTextField.text?.characters.count ?? 0 > 0 && (emailTextField.text?.contains("@"))! && (emailTextField.text?.contains("."))! && passwordTextField.text?.characters.count ?? 0 > 5
+    @objc func handleTextInputChange() {
+        let isFormValid = emailTextField.text?.count ?? 0 > 0 && (emailTextField.text?.contains("@"))! && (emailTextField.text?.contains("."))! && passwordTextField.text?.count ?? 0 > 5
         
         if (isFormValid){
             loginButton.isEnabled = true
@@ -100,7 +100,7 @@ class LoginController: UIViewController, UITextFieldDelegate{
         return button
     }()
     
-    func handleLogin(){
+    @objc func handleLogin(){
         guard let email = emailTextField.text else {return}
         guard let password = passwordTextField.text else {return}
         
@@ -157,4 +157,15 @@ class LoginController: UIViewController, UITextFieldDelegate{
         passwordTextField.resignFirstResponder()
         return true;
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.Key(rawValue: key), value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSAttributedStringKey(_ input: NSAttributedString.Key) -> String {
+	return input.rawValue
 }

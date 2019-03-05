@@ -57,7 +57,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         
         let navBar = self.navigationController?.navigationBar
         navBar?.barTintColor = UIColor.rgb(red: 255, green: 153, blue: 153)
-        navBar?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        navBar?.titleTextAttributes = convertToOptionalNSAttributedStringKeyDictionary([NSAttributedString.Key.foregroundColor.rawValue: UIColor.white])
         navBar?.tintColor = .white
         navBar?.barStyle = UIBarStyle.black;
         
@@ -76,6 +76,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         return chatInputContainerView
     }()
     
+    @objc
     func handleUploadTap() {
         let imagePickerController = UIImagePickerController()
         
@@ -86,9 +87,12 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         present(imagePickerController, animated: true, completion: nil)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+// Local variable inserted by Swift 4.2 migrator.
+let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+
         
-        if let videoUrl = info[UIImagePickerControllerMediaURL] as? URL {
+        if let videoUrl = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.mediaURL)] as? URL {
             // We selected a video
             handleVideoSelectedForUrl(url: videoUrl)
         } else {
@@ -134,7 +138,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         
         do {
             
-            let thumbnailCGImage = try imageGeneretor.copyCGImage(at: CMTimeMake(1, 60), actualTime: nil)
+            let thumbnailCGImage = try imageGeneretor.copyCGImage(at: CMTimeMake(value: 1, timescale: 60), actualTime: nil)
             return UIImage(cgImage: thumbnailCGImage)
         } catch let err {
             print(err)
@@ -163,7 +167,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         let imageName = NSUUID().uuidString
         let ref = FIRStorage.storage().reference().child("message_images").child(imageName)
         
-        if let uploadData = UIImageJPEGRepresentation(image, 0.2) {
+        if let uploadData = image.jpegData(compressionQuality: 0.2) {
             ref.put(uploadData, metadata: nil, completion: { (metadata, error) in
                 if error != nil {
                     print("Failed to upload image:", error!)
@@ -191,10 +195,10 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
     }
     
     func setupKeyboardObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDidShow), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDidShow), name: UIResponder.keyboardDidShowNotification, object: nil)
     }
     
-    func handleKeyboardDidShow() {
+    @objc func handleKeyboardDidShow() {
         if messages.count > 0 {
             let indexPath = IndexPath(item: messages.count - 1, section: 0)
             collectionView?.scrollToItem(at: indexPath, at: .top, animated: true)
@@ -208,8 +212,8 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
     }
     
     func handleKeyboardWillShow(notification: Notification) {
-        let keyboardFrame = ((notification as NSNotification).userInfo?[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue
-        let keyboardDuration = ((notification as NSNotification).userInfo?[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
+        let keyboardFrame = ((notification as NSNotification).userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as AnyObject).cgRectValue
+        let keyboardDuration = ((notification as NSNotification).userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
         
         containerViewBottomAnchor?.constant = -keyboardFrame!.height
         UIView.animate(withDuration: keyboardDuration!) {
@@ -218,7 +222,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
     }
     
     func handleKeyboardWillHide(notification: Notification) {
-        let keyboardDuration = ((notification as NSNotification).userInfo?[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
+        let keyboardDuration = ((notification as NSNotification).userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
         
         containerViewBottomAnchor?.constant = 0
         UIView.animate(withDuration: keyboardDuration!) {
@@ -312,11 +316,12 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
     private func estimatedFrameForText(text: String) -> CGRect {
         let size = CGSize(width: 200, height: 1000)
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-        return NSString(string: text).boundingRect(with: size, options: options, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 16)], context: nil)
+        return NSString(string: text).boundingRect(with: size, options: options, attributes: convertToOptionalNSAttributedStringKeyDictionary([convertFromNSAttributedStringKey(NSAttributedString.Key.font): UIFont.systemFont(ofSize: 16)]), context: nil)
     }
     
     var containerViewBottomAnchor: NSLayoutConstraint?
     
+    @objc
     func handleSend() {
         let properties: [String: Any] = ["text": inputContainerView.inputTextField.text!]
         sendMessageWithProperties(properties: properties)
@@ -399,7 +404,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         }
     }
     
-    func handleZoomOut(tapGesture: UITapGestureRecognizer) {
+    @objc func handleZoomOut(tapGesture: UITapGestureRecognizer) {
         if let zoomOutImageView = tapGesture.view {
             // Need to animate back out to controller
             zoomOutImageView.layer.cornerRadius = 16
@@ -417,3 +422,24 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
     }
 }
 
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.Key(rawValue: key), value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
+	return input.rawValue
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSAttributedStringKey(_ input: NSAttributedString.Key) -> String {
+	return input.rawValue
+}

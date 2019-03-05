@@ -58,11 +58,11 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
-    func handleUpdateFeed(){
+    @objc func handleUpdateFeed(){
         handleRefresh()
     }
     
-    func handleRefresh() {
+    @objc func handleRefresh() {
         posts.removeAll()
         fetchAllPosts()
     }
@@ -101,7 +101,7 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "camera3").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleCamera))
     }
     
-    func handleCamera() {
+    @objc func handleCamera() {
         print("Showing camera")
         
         let cameraController = CameraController()
@@ -109,7 +109,7 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
 
     
-    func handleShowMessages() {
+    @objc func handleShowMessages() {
         let messagesController = MessagesController()
 //        commentsController.post = post
         navigationController?.pushViewController(messagesController, animated: true)

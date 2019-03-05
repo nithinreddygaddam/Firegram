@@ -16,7 +16,7 @@ class ChatMessageCell: UICollectionViewCell {
     var chatLogController: ChatLogController?
     
     let activityIndicatorView: UIActivityIndicatorView = {
-        let aiv = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        let aiv = UIActivityIndicatorView(style: .whiteLarge)
         aiv.translatesAutoresizingMaskIntoConstraints = false
         aiv.hidesWhenStopped = true
         return aiv
@@ -35,7 +35,7 @@ class ChatMessageCell: UICollectionViewCell {
     var playerLayer: AVPlayerLayer?
     var player: AVPlayer?
     
-    func handlePlay() {
+    @objc func handlePlay() {
         if let videoUrlString = message?.videoUrl, let url = URL(string: videoUrlString) { // "string" without a capital letter, not "String"...
             player = AVPlayer(url: url)
             
@@ -100,7 +100,7 @@ class ChatMessageCell: UICollectionViewCell {
         return imageView
     }()
     
-    func handleZoomTap(tapGesture: UITapGestureRecognizer) {
+    @objc func handleZoomTap(tapGesture: UITapGestureRecognizer) {
         if message?.videoUrl != nil {
             return
         }

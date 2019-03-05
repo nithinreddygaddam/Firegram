@@ -76,7 +76,7 @@ class UserSearchController: UICollectionViewController, UICollectionViewDelegate
         
         let navBar = self.navigationController?.navigationBar
         navBar?.barTintColor = UIColor.rgb(red: 255, green: 153, blue: 153)
-        navBar?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        navBar?.titleTextAttributes = convertToOptionalNSAttributedStringKeyDictionary([NSAttributedString.Key.foregroundColor.rawValue: UIColor.white])
         navBar?.tintColor = .white
         navBar?.barStyle = UIBarStyle.black;
         
@@ -120,4 +120,10 @@ class UserSearchController: UICollectionViewController, UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: 66)
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.Key(rawValue: key), value)})
 }

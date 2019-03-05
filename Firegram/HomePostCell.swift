@@ -40,15 +40,15 @@ class HomePostCell: UICollectionViewCell {
         
         guard let post = self.post else{return}
         
-        let attributedText = NSMutableAttributedString(string: post.user.username, attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 14)])
+        let attributedText = NSMutableAttributedString(string: post.user.username, attributes: convertToOptionalNSAttributedStringKeyDictionary([convertFromNSAttributedStringKey(NSAttributedString.Key.font): UIFont.boldSystemFont(ofSize: 14)]))
         
-        attributedText.append(NSAttributedString(string: "  \(post.caption)", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)]))
+        attributedText.append(NSAttributedString(string: "  \(post.caption)", attributes: convertToOptionalNSAttributedStringKeyDictionary([convertFromNSAttributedStringKey(NSAttributedString.Key.font): UIFont.systemFont(ofSize: 14)])))
         
-        attributedText.append(NSAttributedString(string: "\n\n", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 4)]))
+        attributedText.append(NSAttributedString(string: "\n\n", attributes: convertToOptionalNSAttributedStringKeyDictionary([convertFromNSAttributedStringKey(NSAttributedString.Key.font): UIFont.systemFont(ofSize: 4)])))
         
         let timeAgoDisplay = post.creationDate.timeAgoDisplay()
         
-        attributedText.append(NSAttributedString(string: timeAgoDisplay, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 12), NSForegroundColorAttributeName: UIColor.gray]))
+        attributedText.append(NSAttributedString(string: timeAgoDisplay, attributes: convertToOptionalNSAttributedStringKeyDictionary([convertFromNSAttributedStringKey(NSAttributedString.Key.font): UIFont.systemFont(ofSize: 12), convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor): UIColor.gray])))
         
         self.captionLabel.attributedText = attributedText
         
@@ -91,7 +91,7 @@ class HomePostCell: UICollectionViewCell {
         return button
     }()
     
-    func handleLike() {
+    @objc func handleLike() {
         print("Handling like from within cell...")
         delegate?.didLike(for: self)
     }
@@ -103,7 +103,7 @@ class HomePostCell: UICollectionViewCell {
         return button
     }()
     
-    func handleComment(){
+    @objc func handleComment(){
         guard let pst = post else {return}
         delegate?.didTapComment(post: pst)
     }
@@ -172,4 +172,15 @@ class HomePostCell: UICollectionViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.Key(rawValue: key), value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSAttributedStringKey(_ input: NSAttributedString.Key) -> String {
+	return input.rawValue
 }

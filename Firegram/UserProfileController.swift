@@ -23,7 +23,7 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
     
         let navBar = self.navigationController?.navigationBar
         navBar?.barTintColor = UIColor.rgb(red: 255, green: 153, blue: 153)
-        navBar?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        navBar?.titleTextAttributes = convertToOptionalNSAttributedStringKeyDictionary([NSAttributedString.Key.foregroundColor.rawValue: UIColor.white])
         navBar?.tintColor = .white
         navBar?.barStyle = UIBarStyle.black;
         
@@ -31,7 +31,7 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         collectionView?.backgroundColor = .white
         
         
-        collectionView?.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
+        collectionView?.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
 
         collectionView?.register(UserProfilePhotoCell.self, forCellWithReuseIdentifier: cellId)
         
@@ -46,7 +46,7 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "camera3").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleCamera))
     }
     
-    func handleCamera() {
+    @objc func handleCamera() {
         print("Showing camera")
         
         let cameraController = CameraController()
@@ -116,7 +116,7 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "gear").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleLogOut))
     }
     
-    func handleLogOut(){
+    @objc func handleLogOut(){
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         alertController.addAction(UIAlertAction(title: "Log Out", style: .destructive, handler: { (_) in
@@ -240,7 +240,7 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         }
     }
     
-    func handleZoomOut(tapGesture: UITapGestureRecognizer) {
+    @objc func handleZoomOut(tapGesture: UITapGestureRecognizer) {
         if let zoomOutImageView = tapGesture.view {
             // Need to animate back out to controller
             zoomOutImageView.layer.cornerRadius = 16
@@ -257,4 +257,10 @@ class UserProfileController: UICollectionViewController, UICollectionViewDelegat
         }
     }
     
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.Key(rawValue: key), value)})
 }

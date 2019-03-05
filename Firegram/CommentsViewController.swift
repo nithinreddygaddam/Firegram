@@ -22,7 +22,7 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
         
         let navBar = self.navigationController?.navigationBar
         navBar?.barTintColor = UIColor.rgb(red: 255, green: 153, blue: 153)
-        navBar?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        navBar?.titleTextAttributes = convertToOptionalNSAttributedStringKeyDictionary([NSAttributedString.Key.foregroundColor.rawValue: UIColor.white])
         navBar?.tintColor = .white
         navBar?.barStyle = UIBarStyle.black;
         
@@ -134,7 +134,7 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
     
     var containerViewBottomAnchor: NSLayoutConstraint?
     
-    func handleSubmit() {
+    @objc func handleSubmit() {
         
         guard let uid = FIRAuth.auth()?.currentUser?.uid else {return}
         
@@ -162,4 +162,10 @@ class CommentsController: UICollectionViewController, UICollectionViewDelegateFl
         commentTextField.resignFirstResponder()
         return true;
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.Key(rawValue: key), value)})
 }

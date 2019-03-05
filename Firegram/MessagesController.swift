@@ -18,7 +18,7 @@ class MessagesController: UITableViewController {
         
         let navBar = self.navigationController?.navigationBar
         navBar?.barTintColor = UIColor.rgb(red: 255, green: 153, blue: 153)
-        navBar?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        navBar?.titleTextAttributes = convertToOptionalNSAttributedStringKeyDictionary([NSAttributedString.Key.foregroundColor.rawValue: UIColor.white])
         navBar?.tintColor = .white
         navBar?.barStyle = UIBarStyle.black;
         
@@ -38,7 +38,7 @@ class MessagesController: UITableViewController {
         return true
     }
     
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard let uid = FIRAuth.auth()?.currentUser?.uid else {
             return
         }
@@ -113,7 +113,7 @@ class MessagesController: UITableViewController {
     
     var timer: Timer?
     
-    func handleReloadTable() {
+    @objc func handleReloadTable() {
         self.messages = Array(self.messagesDictionary.values)
         self.messages.sort(by: { (message1, message2) -> Bool in
             return message1.timestamp!.intValue > message2.timestamp!.intValue
@@ -159,7 +159,7 @@ class MessagesController: UITableViewController {
         }, withCancel: nil)
     }
     
-    func handleNewMessage() {
+    @objc func handleNewMessage() {
         let newMessageController = NewMessageController()
         newMessageController.messagesController = self
         let navController = UINavigationController(rootViewController: newMessageController)
@@ -250,4 +250,10 @@ class MessagesController: UITableViewController {
         navigationController?.pushViewController(chatLogController, animated: true)
     }
     
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.Key(rawValue: key), value)})
 }

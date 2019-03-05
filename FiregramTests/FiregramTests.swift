@@ -7,7 +7,6 @@
 //
 
 import XCTest
-@testable import Firegram
 
 class FiregramTests: XCTestCase {
     

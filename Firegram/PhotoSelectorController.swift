@@ -19,7 +19,7 @@ class PhotoSelectorController: UICollectionViewController, UICollectionViewDeleg
         
         let navBar = self.navigationController?.navigationBar
         navBar?.barTintColor = UIColor.rgb(red: 255, green: 153, blue: 153)
-        navBar?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        navBar?.titleTextAttributes = convertToOptionalNSAttributedStringKeyDictionary([NSAttributedString.Key.foregroundColor.rawValue: UIColor.white])
         navBar?.tintColor = .white
         navBar?.barStyle = UIBarStyle.black;
         
@@ -29,7 +29,7 @@ class PhotoSelectorController: UICollectionViewController, UICollectionViewDeleg
         
         collectionView?.register(PhotoSelectorCell.self, forCellWithReuseIdentifier: cellId)
         
-        collectionView?.register(PhotoSelectorHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
+        collectionView?.register(PhotoSelectorHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
         
         checkPhotoLibraryPermission()
         
@@ -183,14 +183,20 @@ class PhotoSelectorController: UICollectionViewController, UICollectionViewDeleg
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(handleNext))
     }
     
-    func handleNext() {
+    @objc func handleNext() {
         let sharePhotoController = SharePhotoController()
         sharePhotoController.selectedImage = self.header?.photoImageView.image
         navigationController?.pushViewController(sharePhotoController, animated: true)
     }
     
-    func handleCancel() {
+    @objc func handleCancel() {
         dismiss(animated: true, completion: nil)
     }
 }
 
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.Key(rawValue: key), value)})
+}
